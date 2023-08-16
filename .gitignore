@@ -1,0 +1,42 @@
+# Next.js build output
+.next/
+
+# Node.js dependencies
+node_modules/
+
+# Go build output
+/bin/
+
+# Compiled Go files
+*.exe
+*.test
+*.prof
+
+# Environment variables (for production)
+.env
+
+# Local development environment (for VS Code)
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Editor-specific files
+.idea/
+*.swp
+*.swo
+
+# Logs and generated files
+log.txt
+*.log
+
+# Compiled binary files
+*.bin
+
+# User-specific directories
+user_data/
+
+# Dependency files
+npm-debug.log
+yarn-error.log
+
