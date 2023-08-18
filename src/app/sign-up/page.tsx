@@ -1,11 +1,11 @@
-export default function Home() {
+export default function SignUp() {
 	return (
 		<main className="min-h-screen flex justify-center items-center bg-gray-100">
 			<div className="flex flex-col-reverse lg:flex-row w-full max-w-screen-xl mx-auto">
-				{/* Left Side: Login Form */}
+				{/* Left Side: Sign Up Form */}
 				<div className="lg:w-1/2 p-8 flex justify-center items-center">
 					<div className="w-full lg:w-4/5">
-						<h2 className="text-2xl font-semibold mb-4">Log In</h2>
+						<h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
 						<form className="space-y-4">
 							<input
 								type="email"
@@ -17,17 +17,22 @@ export default function Home() {
 								placeholder="Password"
 								className="w-full p-2 border rounded focus:outline-none focus:border-crimson"
 							/>
+							<input
+								type="password"
+								placeholder="Confirm Password"
+								className="w-full p-2 border rounded focus:outline-none focus:border-crimson"
+							/>
 							<button
 								type="submit"
 								className="w-full py-2 bg-crimson text-black rounded btn-transparent"
 							>
-								Log In
+								Sign Up
 							</button>
 						</form>
 						<p className="mt-4 text-sm">
-							Don't have an account yet?{' '}
-							<a href="/sign-up" className="crimson font-bold">
-								Sign Up
+							Already have an account?{' '}
+							<a href="/" className="crimson font-bold">
+								Log In
 							</a>
 						</p>
 					</div>
