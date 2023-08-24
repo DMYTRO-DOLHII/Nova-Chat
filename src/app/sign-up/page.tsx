@@ -3,7 +3,10 @@
 import { useState } from "react";
 
 export default function SignUp() {
+	const [username, setUsername] = useState('');
+	const [usernameError, setUsernameError] = useState(Boolean)
 	const [email, setEmail] = useState('');
+	const [emailError, setEmailError] = useState(Boolean);
 	const [password, setPassword] = useState('');
 	const [checkPassword, setCheckPassword] = useState('');
 	const [passwordsMatch, setPasswordsMatch] = useState(-1);
@@ -11,8 +14,19 @@ export default function SignUp() {
 	function signUp(e: any) {
 		e.preventDefault();
 
+		if (username.length <= 5){
+			setUsernameError(true)
+			return
+		}
+
+		if (!validateEmail(email)) {
+			setEmailError(true);
+			return;
+		}
+
 		if (password === checkPassword) {
-			const requestBody = JSON.stringify({ email, password });
+
+			const requestBody = JSON.stringify({ username, email, password });
 			console.log("Request Body:", requestBody);
 
 			const postData = async () => {
@@ -32,9 +46,25 @@ export default function SignUp() {
 			});
 
 			setPasswordsMatch(1);
+			setEmailError(false)
 		} else {
 			setPasswordsMatch(0);
 		}
+	}
+
+	function handleUsername(e: any){
+		setUsername(e)
+		setUsernameError(false)
+	}
+
+	function handleEmail(e: any) {
+		setEmail(e)
+		setEmailError(false)
+	}
+
+	function validateEmail(email: string) {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email);
 	}
 
 	function handlePasswordChange(e: any) {
@@ -56,12 +86,25 @@ export default function SignUp() {
 						<h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
 						<form className="space-y-4">
 							<input
-								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								placeholder="Email"
+								type="username"
+								value={username}
+								onChange={(e) => handleUsername(e.target.value)}
+								placeholder="Username"
 								className="w-full p-2 border rounded focus:outline-none focus:border-crimson"
 							/>
+							{usernameError == true && (
+								<p className="text-red-500 text-sm">Usename should be not less than 8 symbols</p>
+							)}
+							<input
+								type="email"
+								value={email}
+								onChange={(e) => handleEmail(e.target.value)}
+								placeholder="Email"
+								className={`w-full p-2 border rounded focus:outline-none focus:border-crimson ${emailError ? 'border-red-500' : 'focus:border-crimson'}`}
+							/>
+							{emailError == true && (
+								<p className="text-red-500 text-sm">Email does not match it's format</p>
+							)}
 							<input
 								type="password"
 								value={password}

@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
-	"net/http"
 )
 
 func sign_up(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +20,12 @@ func sign_up(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		println("Data received: ",  data["email"].(string),  data["password"].(string))
+		user := User{
+			data["username"].(string),
+			data["email"].(string),
+			data["password"].(string)}
+
+		fmt.Println(user)
 
 		w.Write([]byte(`{"message": "Hello from the backend!"}`))
 	}
