@@ -1,13 +1,42 @@
 package main
 
+// -------- IMPORTS --------
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
-
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
+	"net/http"
+	"time"
 )
+
+// -------- VARIABLES --------
+var ctx context.Context
+var db mongo.Database
+
+// -------- LOGIC --------
+func SetUpDB() {
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	client, err := mongo.NewClient(clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	err = client.Connect(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Disconnect(ctx)
+
+	// Access the "chatapp" database and "users" collection
+	db := client.Database("chatapp")
+	fmt.Println(db)
+}
 
 func sign_up(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -25,7 +54,31 @@ func sign_up(w http.ResponseWriter, r *http.Request) {
 			data["email"].(string),
 			data["password"].(string)}
 
-		fmt.Println(user)
+		clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+		client, err := mongo.NewClient(clientOptions)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		err = client.Connect(ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer client.Disconnect(ctx)
+
+		// Access the "chatapp" database and "users" collection
+		db := client.Database("nova-chat")
+		users := db.Collection("users")
+
+		result, err := users.InsertOne(ctx, user)
+
+		if err == nil {
+			fmt.Println("Inserted one object, ID: ", result.InsertedID)
+		} else {
+			fmt.Println("Inserting fail!")
+		}
 
 		w.Write([]byte(`{"message": "Hello from the backend!"}`))
 	}
