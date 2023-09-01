@@ -8,21 +8,28 @@ export default function SignUp() {
 	const [email, setEmail] = useState('');
 	const [emailError, setEmailError] = useState(Boolean);
 	const [password, setPassword] = useState('');
+	const [passwordError, setPasswordError] = useState(Boolean)
 	const [checkPassword, setCheckPassword] = useState('');
 	const [passwordsMatch, setPasswordsMatch] = useState(-1);
 
 	function signUp(e: any) {
 		e.preventDefault();
 
-		if (username.length <= 5){
+		if (username.length <= 5) {
 			setUsernameError(true)
 			return
 		}
 
 		if (!validateEmail(email)) {
 			setEmailError(true);
-			return;
+			return
 		}
+
+		if (password.length < 8) {
+			setPasswordError(true)
+			return
+		}
+
 
 		if (password === checkPassword) {
 
@@ -47,12 +54,13 @@ export default function SignUp() {
 
 			setPasswordsMatch(1);
 			setEmailError(false)
+			setPasswordError(false)
 		} else {
 			setPasswordsMatch(0);
 		}
 	}
 
-	function handleUsername(e: any){
+	function handleUsername(e: any) {
 		setUsername(e)
 		setUsernameError(false)
 	}
@@ -69,6 +77,7 @@ export default function SignUp() {
 
 	function handlePasswordChange(e: any) {
 		setPasswordsMatch(-1)
+		setPasswordError(false)
 		setPassword(e)
 	}
 
@@ -93,7 +102,7 @@ export default function SignUp() {
 								className="w-full p-2 border rounded focus:outline-none focus:border-crimson"
 							/>
 							{usernameError == true && (
-								<p className="text-red-500 text-sm">Usename should be not less than 8 symbols</p>
+								<p className="text-red-500 text-sm">Username should be not less than 8 symbols</p>
 							)}
 							<input
 								type="email"
@@ -117,6 +126,9 @@ export default function SignUp() {
 										: "border-green-500"
 									}`}
 							/>
+							{passwordError == true && (
+								<p className="text-red-500 text-sm">Passwords' length should be not less than 8 characters</p>
+							)}
 							<input
 								type="password"
 								value={checkPassword}
