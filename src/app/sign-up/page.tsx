@@ -154,7 +154,7 @@ export default function SignUp() {
 						</form>
 						<p className="mt-4 text-sm">
 							Already have an account?{' '}
-							<a href="/" className="crimson font-bold">
+							<a href="/login" className="crimson font-bold">
 								Log In
 							</a>
 						</p>
