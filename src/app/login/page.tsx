@@ -1,4 +1,10 @@
+'use client'
+
+import { useRouter } from "../../../node_modules/next/navigation";
+
 export default function Home() {
+	const router = useRouter()
+
 	return (
 		<main className="min-h-screen flex justify-center items-center bg-gray-100">
 			<div className="flex flex-col-reverse lg:flex-row w-full max-w-screen-xl mx-auto">
@@ -34,7 +40,7 @@ export default function Home() {
 				</div>
 				{/* Right Side: Welcome Message */}
 				<div className="lg:w-1/2 p-8 text-white flex justify-center items-center">
-					<div className="text-center">
+					<div className="text-center cursor-pointer" onClick={() => router.push('/')}>
 						<h1 className="text-black text-4xl lg:text-6xl font-bold mb-4">
 							WELCOME TO{' '}
 							<span className="crimson text-5xl lg:text-9xl">NOVA</span>
